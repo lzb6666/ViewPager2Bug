@@ -2,6 +2,7 @@ package com.example.viewpager2bug
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +32,8 @@ class BlankFragment : Fragment() {
     }
 }
 
+private const val TAG = "RvAdapter";
+
 class RvAdapter() : RecyclerView.Adapter<RvAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         return 40
@@ -52,9 +55,12 @@ class RvAdapter() : RecyclerView.Adapter<RvAdapter.ViewHolder>() {
         with(holder) {
             tv.text = position.toString()
             itemView.setOnClickListener {
+                //Notices:It works abnormally
                 recyclerView?.scrollToPosition(position)
-                Toast.makeText(recyclerView!!.context, "$position", Toast.LENGTH_SHORT).show()
+                Toast.makeText(recyclerView!!.context, "scroll to $position", Toast.LENGTH_SHORT).show()
             }
+            //Notices:All the children on the first show will be re bound
+            Log.d(TAG, "onBindViewHolder: $position")
         }
     }
 
